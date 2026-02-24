@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arief Rahman Harahab — DBR BRIN 2026 | Circular Bioeconomy Kendal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Space+Mono:wght@400;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#04090f;--bg2:#071320;--teal:#00c9b1;--gold:#f4a716;--green:#2ecc71;--muted:#607080;--text:#d8e8f0;--white:#ffffff;--gov:#3b82f6;--aca:#00c9b1;--biz:#f4a716;--com:#2ecc71;--med:#a78bfa;--light:#eaf4f4;--pale:#f4f8fb;--mid:#d0e8e8}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.7;cursor:none}
+#cursor{width:10px;height:10px;background:var(--teal);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:screen}
+#cursor-ring{width:32px;height:32px;border:1px solid rgba(0,201,177,0.4);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transition:transform 0.35s ease}
+#canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:0.5;pointer-events:none}
+#progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--gold));z-index:1000;width:0%}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--teal)}
+nav{position:fixed;top:0;width:100%;padding:1.2rem 4rem;display:flex;justify-content:space-between;align-items:center;z-index:100;transition:background 0.4s}
+nav.scrolled{background:rgba(4,9,15,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,201,177,0.1)}
+.nav-logo{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--teal);letter-spacing:0.2em;text-transform:uppercase}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--muted);text-decoration:none;letter-spacing:0.15em;text-transform:uppercase;transition:color 0.3s}
+.nav-links a:hover{color:var(--teal)}
+#hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 max(3rem,9vw);overflow:hidden}
+.hero-eyebrow{font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--teal);letter-spacing:0.3em;text-transform:uppercase;margin-bottom:1.8rem;opacity:0;animation:fadeUp 0.8s 0.3s forwards}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,6vw,5.8rem);font-weight:900;line-height:1.05;color:var(--white);margin-bottom:1.4rem;opacity:0;animation:fadeUp 0.9s 0.5s forwards}
+.hero-title .teal{color:var(--teal);font-style:italic}
+.hero-title .gold{color:var(--gold)}
+.hero-sub{font-size:1.1rem;color:var(--muted);max-width:55ch;margin-bottom:2.5rem;opacity:0;animation:fadeUp 0.9s 0.7s forwards;font-style:italic}
+.hero-id{display:flex;align-items:center;gap:1.4rem;margin-bottom:3rem;opacity:0;animation:fadeUp 0.9s 0.9s forwards}
+.av{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--gold));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--bg);flex-shrink:0}
+.id-name{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--white)}
+.id-title{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--teal);letter-spacing:0.1em;text-transform:uppercase}
+.id-org{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--muted)}
+.hero-cta{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:fadeUp 0.9s 1.1s forwards}
+.btn-p{padding:0.85rem 2.2rem;background:var(--teal);color:var(--bg);font-family:'Space Mono',monospace;font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;border:none;cursor:none;text-decoration:none;display:inline-flex;align-items:center;gap:0.6rem;transition:all 0.3s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%)}
+.btn-p:hover{background:var(--gold);transform:translateY(-2px)}
+.btn-s{padding:0.85rem 2.2rem;background:transparent;color:var(--teal);font-family:'Space Mono',monospace;font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;border:1px solid rgba(0,201,177,0.35);cursor:none;text-decoration:none;display:inline-flex;align-items:center;gap:0.6rem;transition:all 0.3s}
+.btn-s:hover{background:rgba(0,201,177,0.07)}
+.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0.5rem;opacity:0;animation:fadeUp 1s 1.4s forwards}
+.scroll-line{width:1px;height:55px;background:linear-gradient(to bottom,var(--teal),transparent);animation:scrollP 2s infinite}
+.scroll-lbl{font-family:'Space Mono',monospace;font-size:0.52rem;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase}
+section{position:relative;z-index:1;padding:7rem max(3rem,9vw)}
+.stag{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--teal);letter-spacing:0.28em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:0.8rem}
+.stag::before{content:'';width:22px;height:1px;background:var(--teal)}
+.stitle{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:900;color:var(--white);line-height:1.1;margin-bottom:1.4rem}
+.ssub{font-size:1rem;color:var(--muted);max-width:58ch;font-style:italic;margin-bottom:3.5rem}
+.rule{width:100%;height:1px;background:rgba(255,255,255,0.04);margin-bottom:0}
+#stats{position:relative;z-index:1;padding:4rem max(3rem,9vw);background:linear-gradient(90deg,rgba(0,201,177,0.07),rgba(244,167,22,0.03));border-top:1px solid rgba(0,201,177,0.13);border-bottom:1px solid rgba(0,201,177,0.08)}
+.stats-row{display:flex;justify-content:space-around;max-width:1100px;flex-wrap:wrap;gap:3rem}
+.stat-i{text-align:center}
+.stat-n{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,4rem);font-weight:900;color:var(--teal);display:block;line-height:1}
+.stat-u{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--teal);letter-spacing:0.1em}
+.stat-l{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;margin-top:0.5rem}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:2px;max-width:1100px}
+.pcard{padding:3rem;background:linear-gradient(135deg,rgba(10,37,64,0.6),rgba(4,9,15,0.4));border:1px solid rgba(255,255,255,0.05);position:relative;overflow:hidden;transition:all 0.4s}
+.pcard:hover{transform:translateY(-4px);border-color:rgba(0,201,177,0.2)}
+.pcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.pcard.waste::before{background:var(--gold)}
+.pcard.salin::before{background:var(--gov)}
+.pn{font-family:'Playfair Display',serif;font-size:5rem;font-weight:900;line-height:1;opacity:0.07;position:absolute;top:1.5rem;right:2rem;color:var(--white)}
+.picon{font-size:2.4rem;margin-bottom:1.2rem}
+.ptitle{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:700;color:var(--white);margin-bottom:0.8rem}
+.ptext{font-size:0.95rem;color:var(--muted);line-height:1.7}
+.spill{display:inline-block;margin-top:0.8rem;margin-right:0.4rem;padding:0.3rem 0.9rem;background:rgba(0,201,177,0.08);border:1px solid rgba(0,201,177,0.18);font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--teal);letter-spacing:0.05em}
+.arrow-c{grid-column:1/-1;display:flex;align-items:center;justify-content:center;padding:2rem}
+.arrow-t{font-family:'Playfair Display',serif;font-size:1.6rem;font-style:italic;color:var(--teal);text-align:center}
+.flow-viz{max-width:1100px;display:flex;align-items:stretch;gap:0;margin-bottom:4rem;overflow-x:auto}
+.fstep{flex:1;min-width:155px;padding:2rem 1.4rem;text-align:center;background:rgba(10,37,64,0.5);border-top:3px solid var(--teal);position:relative;transition:all 0.4s}
+.fstep:hover{background:rgba(0,201,177,0.07);transform:translateY(-6px)}
+.fstep::after{content:'→';position:absolute;right:-10px;top:50%;transform:translateY(-50%);color:var(--teal);font-size:1.1rem;z-index:2}
+.fstep:last-child::after{display:none}
+.fstep .fi{font-size:1.9rem;margin-bottom:0.7rem}
+.fstep .fl{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--teal);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.3rem}
+.fstep .ft{font-size:0.88rem;color:var(--text)}
+.tcards{max-width:1100px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem}
+.tcard{padding:2.5rem;border:1px solid rgba(255,255,255,0.06);background:rgba(7,19,32,0.8);transition:all 0.4s}
+.tcard:hover{border-color:rgba(244,167,22,0.3);background:rgba(244,167,22,0.04);transform:translateY(-4px)}
+.tc-num{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--gold);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:1rem}
+.tc-t{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--white);margin-bottom:0.7rem}
+.tc-b{font-size:0.88rem;color:var(--muted);line-height:1.7}
+.nlist{max-width:1100px;display:flex;flex-direction:column;gap:1px}
+.nitem{display:grid;grid-template-columns:72px 1fr auto;align-items:center;gap:2rem;padding:2rem 2.5rem;background:rgba(7,19,32,0.6);border:1px solid rgba(255,255,255,0.04);transition:all 0.4s;position:relative;overflow:hidden}
+.nitem::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--teal);transform:scaleY(0);transition:transform 0.4s;transform-origin:bottom}
+.nitem:hover::before{transform:scaleY(1)}
+.nitem:hover{background:rgba(0,201,177,0.04);transform:translateX(4px)}
+.nrom{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:900;color:rgba(0,201,177,0.18);font-style:italic}
+.nitem:hover .nrom{color:rgba(0,201,177,0.45)}
+.nlbl{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--teal);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.3rem}
+.nt{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--white);margin-bottom:0.3rem}
+.nb{font-size:0.88rem;color:var(--muted)}
+.nbadge{font-family:'Space Mono',monospace;font-size:0.58rem;padding:0.28rem 0.75rem;background:rgba(0,201,177,0.07);border:1px solid rgba(0,201,177,0.15);color:var(--teal);white-space:nowrap;text-transform:uppercase;letter-spacing:0.08em}
+.hcon{max-width:1100px;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.hcwrap{position:relative;height:480px}
+#helix-canvas{width:100%;height:100%}
+.hactors{display:flex;flex-direction:column;gap:0.9rem}
+.acard{padding:1.4rem 1.8rem;border:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:1.4rem;transition:all 0.4s;position:relative;overflow:hidden}
+.acard:hover{transform:translateX(7px)}
+.acard[data-a="gov"]{border-left:3px solid var(--gov)}
+.acard[data-a="aca"]{border-left:3px solid var(--aca)}
+.acard[data-a="biz"]{border-left:3px solid var(--biz)}
+.acard[data-a="com"]{border-left:3px solid var(--com)}
+.acard[data-a="med"]{border-left:3px solid var(--med)}
+.adot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.acard[data-a="gov"] .adot{background:var(--gov)}
+.acard[data-a="aca"] .adot{background:var(--aca)}
+.acard[data-a="biz"] .adot{background:var(--biz)}
+.acard[data-a="com"] .adot{background:var(--com)}
+.acard[data-a="med"] .adot{background:var(--med)}
+.albl{font-family:'Space Mono',monospace;font-size:0.57rem;letter-spacing:0.15em;text-transform:uppercase}
+.acard[data-a="gov"] .albl{color:var(--gov)}
+.acard[data-a="aca"] .albl{color:var(--aca)}
+.acard[data-a="biz"] .albl{color:var(--biz)}
+.acard[data-a="com"] .albl{color:var(--com)}
+.acard[data-a="med"] .albl{color:var(--med)}
+.aname{font-family:'Playfair Display',serif;font-size:0.97rem;font-weight:700;color:var(--white);margin:0.15rem 0}
+.arole{font-size:0.8rem;color:var(--muted)}
+.arief-tag{padding:0.18rem 0.5rem;font-family:'Space Mono',monospace;font-size:0.52rem;background:rgba(0,201,177,0.08);border:1px solid rgba(0,201,177,0.2);color:var(--teal);margin-left:auto;flex-shrink:0}
+.tgrid{max-width:1100px;display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.mcard{padding:2.5rem;border:1px solid rgba(255,255,255,0.05);background:rgba(7,19,32,0.7);transition:all 0.4s;position:relative;overflow:hidden}
+.mcard:hover{border-color:rgba(0,201,177,0.2);transform:translateY(-5px)}
+.mcard.arief{border-color:rgba(244,167,22,0.3);background:rgba(244,167,22,0.04)}
+.mrole{font-family:'Space Mono',monospace;font-size:0.57rem;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:1rem}
+.mcard.arief .mrole{color:var(--gold)}
+.mcard:not(.arief) .mrole{color:var(--teal)}
+.mname{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--white);margin-bottom:0.3rem}
+.mtitle{font-family:'Crimson Pro',serif;font-size:0.88rem;color:var(--muted);font-style:italic;margin-bottom:1.2rem}
+.mtags{display:flex;flex-wrap:wrap;gap:0.35rem}
+.tag{font-family:'Space Mono',monospace;font-size:0.52rem;padding:0.22rem 0.65rem;border:1px solid rgba(255,255,255,0.07);color:var(--muted);text-transform:uppercase;letter-spacing:0.07em}
+.tag.hl{border-color:rgba(0,201,177,0.28);color:var(--teal);background:rgba(0,201,177,0.05)}
+.ogrid{max-width:1100px;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.ocard{padding:2.5rem;border:1px solid rgba(255,255,255,0.05);background:rgba(7,19,32,0.6);transition:all 0.4s;position:relative}
+.ocard:hover{border-color:rgba(0,201,177,0.25);transform:translateY(-4px)}
+.otype{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--teal);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem}
+.otype::before{content:'';width:5px;height:5px;background:var(--teal);border-radius:50%}
+.ocard.q1 .otype{color:var(--gold)}.ocard.q1 .otype::before{background:var(--gold)}
+.otitle{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--white);margin-bottom:0.7rem;line-height:1.4}
+.ometa{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--muted)}
+.jbadge{display:inline-block;margin-top:0.8rem;padding:0.22rem 0.75rem;background:rgba(244,167,22,0.07);border:1px solid rgba(244,167,22,0.2);font-family:'Space Mono',monospace;font-size:0.56rem;color:var(--gold)}
+#cta{position:relative;z-index:1;padding:8rem max(3rem,9vw);text-align:center;overflow:hidden}
+#cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(0,201,177,0.05),transparent 70%);pointer-events:none}
+.cta-lbl{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--teal);letter-spacing:0.28em;text-transform:uppercase;margin-bottom:1.5rem}
+.cta-t{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.8rem);font-weight:900;color:var(--white);margin-bottom:1.5rem;line-height:1.1}
+.cta-b{font-size:1rem;color:var(--muted);max-width:50ch;margin:0 auto 3rem;font-style:italic}
+.cgrid{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:3rem}
+.citem{padding:1.5rem 2.2rem;border:1px solid rgba(255,255,255,0.07);background:rgba(7,19,32,0.6);text-align:center;transition:all 0.4s;min-width:240px}
+.citem:hover{border-color:rgba(0,201,177,0.22);transform:translateY(-4px)}
+.clbl{font-family:'Space Mono',monospace;font-size:0.56rem;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.5rem}
+.cname{font-family:'Playfair Display',serif;font-size:0.97rem;font-weight:700;color:var(--white);margin-bottom:0.2rem}
+.cemail{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--teal)}
+footer{position:relative;z-index:1;padding:2.5rem max(3rem,9vw);border-top:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.fbrand{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--muted);letter-spacing:0.12em}
+.fbrin{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--teal);letter-spacing:0.08em}
+.reveal{opacity:0;transform:translateY(38px);transition:all 0.8s cubic-bezier(0.22,1,0.36,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.15s}.d2{transition-delay:.3s}.d3{transition-delay:.45s}
+@keyframes fadeUp{to{opacity:1;transform:none}from{opacity:0;transform:translateY(28px)}}
+@keyframes scrollP{0%,100%{opacity:1}50%{opacity:0.3}}
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem}.nav-links{display:none}
+  section{padding:4rem 1.5rem}
+  .pgrid,.tcards,.tgrid,.ogrid,.hcon{grid-template-columns:1fr}
+  .nitem{grid-template-columns:56px 1fr}.nbadge{display:none}
+  body{cursor:auto}#cursor,#cursor-ring{display:none}
+}
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="progress"></div>
+<canvas id="canvas"></canvas>
+
+<nav id="navbar">
+  <div class="nav-logo">Arief Rahman Harahab · DBR BRIN 2026</div>
+  <ul class="nav-links">
+    <li><a href="#problem">Masalah</a></li>
+    <li><a href="#solution">Solusi</a></li>
+    <li><a href="#novelty">Novelty</a></li>
+    <li><a href="#penta">Penta Helix</a></li>
+    <li><a href="#team">Tim</a></li>
+    <li><a href="#cta">Kontak</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-eyebrow">Proposal Riset · Program DBR BRIN · Universitas Diponegoro · 2026</div>
+  <h1 class="hero-title">
+    Dari <span class="gold">Limbah Jagung</span><br>
+    ke <span class="teal">Lahan Salin</span> yang Hidup.<br>
+    <em>Circular Bioeconomy</em><br>
+    berbasis Komunitas Petani.
+  </h1>
+  <p class="hero-sub">Model ekonomi sirkular pertanian: biochar tongkol jagung diproduksi petani secara mandiri sebagai kunci revitalisasi lahan salin pesisir Kendal — tanpa ketergantungan pada teknologi industri.</p>
+  <div class="hero-id">
+    <div class="av">AR</div>
+    <div>
+      <div class="id-name">Arief Rahman Harahab, SP.</div>
+      <div class="id-title">Analis Sarana dan Prasarana Pertanian Ahli Muda</div>
+      <div class="id-org">NIP 197903032010011019 · Dinas Pertanian dan Pangan Kab. Kendal</div>
+    </div>
+  </div>
+  <div class="hero-cta">
+    <a href="#problem" class="btn-p">↓ Jelajahi Riset</a>
+    <a href="#cta" class="btn-s">→ Hubungi Saya</a>
+  </div>
+  <div class="hero-scroll"><div class="scroll-lbl">Scroll</div><div class="scroll-line"></div></div>
+</section>
+
+<div id="stats">
+  <div class="stats-row">
+    <div class="stat-i reveal"><span class="stat-n" data-count="14500">0</span><span class="stat-u">ha</span><div class="stat-l">Lahan Salin Pesisir Jateng</div></div>
+    <div class="stat-i reveal d1"><span class="stat-n" data-count="585">0</span><span class="stat-u">%</span><div class="stat-l">Produktivitas Biosalin vs Konv.</div></div>
+    <div class="stat-i reveal d2"><span class="stat-n" data-count="5">0</span><div class="stat-l">Dimensi Novelty Akademis</div></div>
+    <div class="stat-i reveal d3"><span class="stat-n" data-count="2">0</span><div class="stat-l">Target Publikasi Q1 Scopus</div></div>
+    <div class="stat-i reveal"><span class="stat-n" data-count="350">0</span><span class="stat-u">rb</span><div class="stat-l">Investasi Alat Biochar/Unit (Rp)</div></div>
+  </div>
+</div>
+
+<section id="problem">
+  <div class="stag">01 · Identifikasi Masalah</div>
+  <h2 class="stitle reveal">Dua Masalah.<br><em>Satu Solusi Elegan.</em></h2>
+  <p class="ssub reveal">Kabupaten Kendal menyimpan paradoks: limbah melimpah di selatan, krisis produktivitas di utara. Riset ini melihat keduanya sebagai peluang, bukan beban.</p>
+  <div class="pgrid reveal">
+    <div class="pcard waste">
+      <div class="pn">01</div>
+      <div class="picon">🌽</div>
+      <div class="ptitle">Limbah Tongkol Jagung Tak Bernilai</div>
+      <p class="ptext">Sentra jagung di Patean, Sukorejo, Plantungan — dataran tinggi Kendal menghasilkan limbah tongkol dalam volume masif yang selama ini hanya dibakar di lapangan, mencemari udara dan membuang potensi biomassa berharga.</p>
+      <span class="spill">85% biomassa jagung tidak termanfaatkan</span>
+      <span class="spill">4,13–5,25 ton biochar potensial/ha</span>
+    </div>
+    <div class="pcard salin">
+      <div class="pn">02</div>
+      <div class="picon">🌊</div>
+      <div class="ptitle">Lahan Salin Pesisir yang Sekarat</div>
+      <p class="ptext">Rowosari, Kangkung, Cepiring — pesisir utara Kendal menghadapi peningkatan salinitas akibat intrusi air laut. Produktivitas padi anjlok, ribuan keluarga petani terancam kehilangan mata pencaharian.</p>
+      <span class="spill">±41 km garis pesisir Kendal terdampak</span>
+      <span class="spill">14.500 ha lahan salin marjinal Jateng</span>
+    </div>
+    <div class="arrow-c">
+      <div class="arrow-t">Tongkol Jagung → Biochar Komunitas → Ameliorasi Lahan Salin → Smart Farming Padi Biosalin</div>
+    </div>
+  </div>
+</section>
+
+<section id="solution" style="background:rgba(0,201,177,0.018)">
+  <div class="stag">02 · Solusi Terintegrasi</div>
+  <h2 class="stitle reveal">Circular Bioeconomy<br><em>oleh dan untuk Petani.</em></h2>
+  <p class="ssub reveal">Kunci perbedaan riset ini: petani bukan penerima teknologi — mereka adalah <em>produsen aktif</em> yang mengendalikan rantai nilai ekonomi sirkular sendiri.</p>
+  <div class="flow-viz reveal">
+    <div class="fstep"><div class="fi">🌽</div><div class="fl">Sumber</div><div class="ft">Tongkol jagung dataran tinggi Kendal</div></div>
+    <div class="fstep"><div class="fi">🔥</div><div class="fl">Produksi</div><div class="ft">Pirolisis retort drum oleh petani</div></div>
+    <div class="fstep"><div class="fi">⚫</div><div class="fl">Produk</div><div class="ft">Biochar: pH 8–9,5, KTK &gt;40</div></div>
+    <div class="fstep"><div class="fi">🌿</div><div class="fl">Aplikasi</div><div class="ft">Ameliorasi lahan salin pesisir</div></div>
+    <div class="fstep"><div class="fi">🌾</div><div class="fl">Hasil</div><div class="ft">Smart farming 5,85 ton/ha</div></div>
+    <div class="fstep"><div class="fi">💰</div><div class="fl">Nilai</div><div class="ft">Beras biosalin premium ke komunitas</div></div>
+  </div>
+  <div class="tcards">
+    <div class="tcard reveal"><div class="tc-num">Teknologi Kunci</div><div class="tc-t">Retort Kiln Drum Tertutup</div><p class="tc-b">Drum bekas 200L dimodifikasi pandai besi lokal. Investasi Rp 200–350 ribu/unit. Tanpa ketergantungan alat industri apapun.</p></div>
+    <div class="tcard reveal d1"><div class="tc-num">Program Basis BRIN</div><div class="tc-t">Smart Farming Biosalin</div><p class="tc-b">Dr. Tri Martini Patria (BRIN) membuktikan 5,85 ton GKP/ha di lahan salin Semarang &amp; Jepara. Kendal adalah langkah ekspansi berikutnya.</p></div>
+    <div class="tcard reveal d2"><div class="tc-num">Momentum</div><div class="tc-t">Audiensi Bapperida 20 Feb 2026</div><p class="tc-b">Dr. Tri Martini &amp; Heru Susanto (BRIN) hadir langsung di Kendal. Ekosistem kolaborasi riset sudah terbangun.</p></div>
+  </div>
+</section>
+
+<section id="novelty">
+  <div class="stag">03 · Kebaruan Ilmiah</div>
+  <h2 class="stitle reveal">Lima Dimensi Novelty<br><em>yang Belum Pernah Ada.</em></h2>
+  <p class="ssub reveal">Setiap dimensi berdiri sendiri sebagai gap riset yang valid. Bersama-sama, mereka membentuk penelitian yang benar-benar orisinal.</p>
+  <div class="nlist">
+    <div class="nitem reveal"><div class="nrom">I</div><div><div class="nlbl">Teknis · Agronomis</div><div class="nt">Biochar Komunitas untuk Lahan Salin Pesisir Jawa</div><div class="nb">Karakterisasi & field trial biochar tongkol jagung dari retort drum petani sebagai amelioran lahan salin — belum pernah diteliti di Indonesia.</div></div><div class="nbadge">J. Cleaner Production Q1</div></div>
+    <div class="nitem reveal"><div class="nrom">II</div><div><div class="nlbl">Sosial · Ekonomi</div><div class="nt">Integrasi TAM dengan Konstruk Kelembagaan Penta Helix</div><div class="nb">TAM diperkaya variabel kepercayaan lima aktor inovasi (G-A-B-C-M) untuk adopsi smart farming biosalin — integrasi metodologis yang original.</div></div><div class="nbadge">Agricultural Systems Q1</div></div>
+    <div class="nitem reveal"><div class="nrom">III</div><div><div class="nlbl">Lingkungan · Sistem</div><div class="nt">LCA Sistem Sirkular Berbasis Teknologi Komunitas Sederhana</div><div class="nb">Life Cycle Assessment sistem jagung–pirolisis komunitas–biochar–biosalin sebagai satu kesatuan — LCA dengan teknologi petani belum pernah ada.</div></div><div class="nbadge">Res. Cons. & Recycling Q1</div></div>
+    <div class="nitem reveal"><div class="nrom">IV</div><div><div class="nlbl">Tata Kelola · Inovasi</div><div class="nt">SNA + Penta Helix untuk Ekosistem Inovasi Pertanian Sirkular</div><div class="nb">Social Network Analysis untuk memetakan dinamika kolaborasi aktor Penta Helix dalam ekosistem inovasi pertanian sirkular di kabupaten pesisir Indonesia.</div></div><div class="nbadge">Land Use Policy Q1</div></div>
+    <div class="nitem reveal"><div class="nrom">V</div><div><div class="nlbl">Community-Based · Circular</div><div class="nt">Petani sebagai Produsen Aktif dalam Circular Bioeconomy</div><div class="nb">Konseptualisasi & validasi Community-Based Circular Bioeconomy dalam sistem pertanian padi-jagung Indonesia — menempatkan petani sebagai penggerak utama.</div></div><div class="nbadge">Belum ada di Indonesia</div></div>
+  </div>
+</section>
+
+<section id="penta" style="background:rgba(0,0,0,0.25)">
+  <div class="stag">04 · Ekosistem Inovasi</div>
+  <h2 class="stitle reveal">Penta Helix Kendal:<br><em>Lima Aktor, Satu Tujuan.</em></h2>
+  <p class="ssub reveal">Arief berada di tiga simpul secara bersamaan — Government, Academia, dan Community — keunggulan kompetitif yang tidak dapat digantikan peneliti luar manapun.</p>
+  <div class="hcon">
+    <div class="hcwrap reveal"><canvas id="helix-canvas"></canvas></div>
+    <div class="hactors">
+      <div class="acard reveal" data-a="gov"><div class="adot"></div><div><div class="albl">Government</div><div class="aname">Dinas Pertanian Kendal + Bapperida</div><div class="arole">Kebijakan, data, implementasi roadmap</div></div><div class="arief-tag">Arief ✓</div></div>
+      <div class="acard reveal" data-a="aca"><div class="adot"></div><div><div class="albl">Academia</div><div class="aname">Undip + BRIN (PR SPBPDH)</div><div class="arole">Metodologi, validasi ilmiah, publikasi Q1</div></div><div class="arief-tag">Arief ✓</div></div>
+      <div class="acard reveal" data-a="biz"><div class="adot"></div><div><div class="albl">Business</div><div class="aname">Koperasi tani, pandai besi, offtaker</div><div class="arole">Rantai nilai biochar, pasar biosalin</div></div></div>
+      <div class="acard reveal" data-a="com"><div class="adot"></div><div><div class="albl">Community</div><div class="aname">Kelompok tani pesisir + dataran tinggi</div><div class="arole">Produsen biochar aktif, adopter biosalin</div></div><div class="arief-tag">Arief ✓</div></div>
+      <div class="acard reveal" data-a="med"><div class="adot"></div><div><div class="albl">Media</div><div class="aname">Media lokal, platform digital pertanian</div><div class="arole">Difusi inovasi, branding biosalin premium</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="team">
+  <div class="stag">05 · Tim Riset</div>
+  <h2 class="stitle reveal">Tim yang Tepat<br><em>di Waktu yang Tepat.</em></h2>
+  <div class="tgrid">
+    <div class="mcard arief reveal">
+      <div class="mrole">Pengusul / Mahasiswa DBR</div>
+      <div class="mname">Arief Rahman Harahab, SP.</div>
+      <div class="mtitle">Analis Saprodi Pertanian Ahli Muda<br>NIP 197903032010011019</div>
+      <div class="mtags">
+        <span class="tag hl">Tri-posisional Penta Helix</span>
+        <span class="tag">ASN Dinas Pertanian Kendal</span>
+        <span class="tag">Akses jaringan PPL</span>
+        <span class="tag">Koordinasi lapangan</span>
+      </div>
+    </div>
+    <div class="mcard reveal">
+      <div class="mrole">Calon Promotor · Undip</div>
+      <div class="mname">Ir. Joko Mariyono, M.P., Ph.D.</div>
+      <div class="mtitle">Dosen S2 Agribisnis, FPP Undip<br>Scopus ID: 16067014200</div>
+      <div class="mtags">
+        <span class="tag hl">TAM · Adopsi Inovasi</span>
+        <span class="tag">Ekonomi Pertanian</span>
+        <span class="tag">Smallholder Farming</span>
+        <span class="tag">Publikasi Q1 aktif</span>
+      </div>
+    </div>
+    <div class="mcard reveal d1">
+      <div class="mrole">Calon Ko-Promotor · BRIN</div>
+      <div class="mname">Dr. Tri Martini Patria, S.P., M.Si.</div>
+      <div class="mtitle">Peneliti Ahli Utama · PR SPBPDH BRIN<br>Koordinator Smart Farming Biosalin Jateng</div>
+      <div class="mtags">
+        <span class="tag hl">Smart Farming · LCA</span>
+        <span class="tag">Sistem Prod. Berkelanjutan</span>
+        <span class="tag">Biosalin Semarang-Jepara</span>
+        <span class="tag">Hadir di Kendal 20 Feb 2026</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="outputs" style="background:rgba(0,0,0,0.18)">
+  <div class="stag">06 · Luaran Riset</div>
+  <h2 class="stitle reveal">Apa yang Akan<br><em>Dihasilkan Riset Ini.</em></h2>
+  <div class="ogrid">
+    <div class="ocard q1 reveal">
+      <div class="otype">Artikel Q1 Scopus</div>
+      <div class="otitle">Community-Produced Corncob Biochar via Simple Pyrolysis as Saline Soil Amendment for Biosaline Rice: Characterization, Field Performance &amp; LCA</div>
+      <div class="ometa">Target Submit: Semester 3 · Bulan ke-16</div>
+      <div class="jbadge">Journal of Cleaner Production · IF &gt;11 · Q1</div>
+    </div>
+    <div class="ocard q1 reveal d1">
+      <div class="otype">Artikel Q1 Scopus</div>
+      <div class="otitle">Penta Helix Governance of Community-Based Circular Agriculture: SNA &amp; Modified TAM Study of Biosaline Smart Farming in Kendal Regency, Indonesia</div>
+      <div class="ometa">Target Submit: Semester 4 · Bulan ke-21</div>
+      <div class="jbadge">Agricultural Systems · IF &gt;6 · Q1</div>
+    </div>
+    <div class="ocard reveal">
+      <div class="otype">Kebijakan Daerah</div>
+      <div class="otitle">Roadmap Kebijakan Pertanian Sirkular Kabupaten Kendal 2027–2032</div>
+      <div class="ometa">Siap diintegrasikan ke RPJMD &amp; Renstra Dinas Pertanian Kendal</div>
+    </div>
+    <div class="ocard reveal d1">
+      <div class="otype">Dokumen Teknis</div>
+      <div class="otitle">SOP Produksi Biochar Komunitas + Model Tata Kelola Penta Helix Replikatif Nasional</div>
+      <div class="ometa">Panduan bimtek PPL + template kabupaten pesisir Jawa Tengah lainnya</div>
+    </div>
+  </div>
+</section>
+
+<section id="cta">
+  <div class="cta-lbl">Langkah Berikutnya</div>
+  <h2 class="cta-t reveal">Mari Membangun<br><em>Pertanian Sirkular Kendal</em><br>Bersama.</h2>
+  <p class="cta-b reveal">Ekosistem riset sudah siap. Momentum sudah terbangun sejak 20 Februari 2026. Yang dibutuhkan adalah kolaborasi dengan promotor dan ko-promotor yang tepat.</p>
+  <div class="cgrid reveal">
+    <div class="citem"><div class="clbl">Calon Promotor · Undip</div><div class="cname">Ir. Joko Mariyono, M.P., Ph.D.</div><div class="cemail">jokomariyono@lecturer.undip.ac.id</div></div>
+    <div class="citem"><div class="clbl">Calon Ko-Promotor · BRIN</div><div class="cname">Dr. Tri Martini Patria, S.P., M.Si.</div><div class="cemail">tri.martini@brin.go.id</div></div>
+    <div class="citem"><div class="clbl">Pengusul · Kendal</div><div class="cname">Arief Rahman Harahab, SP.</div><div class="cemail">NIP 197903032010011019</div></div>
+  </div>
+  <div class="reveal"><a href="#hero" class="btn-p" style="margin:0 auto">↑ Kembali ke Atas</a></div>
+</section>
+
+<footer>
+  <div class="fbrand">© 2026 Arief Rahman Harahab, SP. · Kabupaten Kendal, Jawa Tengah</div>
+  <div class="fbrin">Program Degree by Research · BRIN × Universitas Diponegoro</div>
+</footer>
+
+<script>
+// Cursor
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.transform=`translate(${mx-5}px,${my-5}px)`});
+(function animR(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.transform=`translate(${rx-16}px,${ry-16}px)`;requestAnimationFrame(animR)})();
+
+// Progress
+const pb=document.getElementById('progress');
+window.addEventListener('scroll',()=>pb.style.width=(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight)*100)+'%');
+
+// Nav
+const nav=document.getElementById('navbar');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
+
+// Background canvas
+const bgC=document.getElementById('canvas'),bgX=bgC.getContext('2d');
+let W,H,particles=[];
+function resize(){W=bgC.width=window.innerWidth;H=bgC.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+class P{constructor(){this.reset()}reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*1.4+0.3;this.vx=(Math.random()-.5)*.22;this.vy=(Math.random()-.5)*.22;const c=['rgba(0,201,177,','rgba(244,167,22,','rgba(59,130,246,','rgba(46,204,113,'];this.c=c[Math.floor(Math.random()*c.length)];this.a=Math.random()*.45+0.08}update(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>W||this.y<0||this.y>H)this.reset()}draw(){bgX.beginPath();bgX.arc(this.x,this.y,this.r,0,Math.PI*2);bgX.fillStyle=this.c+this.a+')';bgX.fill()}}
+for(let i=0;i<160;i++)particles.push(new P());
+function bgA(){bgX.clearRect(0,0,W,H);particles.forEach(p=>{p.update();p.draw()});for(let i=0;i<particles.length;i++)for(let j=i+1;j<particles.length;j++){const d=Math.hypot(particles[i].x-particles[j].x,particles[i].y-particles[j].y);if(d<90){bgX.beginPath();bgX.moveTo(particles[i].x,particles[i].y);bgX.lineTo(particles[j].x,particles[j].y);bgX.strokeStyle=`rgba(0,201,177,${(1-d/90)*.055})`;bgX.lineWidth=.5;bgX.stroke()}}requestAnimationFrame(bgA)}
+bgA();
+
+// Helix canvas
+const hc=document.getElementById('helix-canvas'),hx=hc.getContext('2d');
+let hW=0,hH=0;
+function rH(){hW=hc.width=hc.offsetWidth;hH=hc.height=hc.offsetHeight}
+setTimeout(rH,100);window.addEventListener('resize',rH);
+const actors=[{l:'G',n:'Government',c:'#3b82f6',a:0},{l:'A',n:'Academia',c:'#00c9b1',a:Math.PI*2/5},{l:'B',n:'Business',c:'#f4a716',a:Math.PI*4/5},{l:'C',n:'Community',c:'#2ecc71',a:Math.PI*6/5},{l:'M',n:'Media',c:'#a78bfa',a:Math.PI*8/5}];
+let hAng=0;
+function hAnimate(){
+  if(!hW||!hH){requestAnimationFrame(hAnimate);return}
+  hx.clearRect(0,0,hW,hH);
+  const cx=hW/2,cy=hH/2,R=Math.min(hW,hH)*.36;
+  hAng+=.007;
+  const pts=actors.map(a=>({x:cx+R*Math.cos(a.a+hAng),y:cy+R*Math.sin(a.a+hAng),c:a.c}));
+  for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const g=hx.createLinearGradient(pts[i].x,pts[i].y,pts[j].x,pts[j].y);g.addColorStop(0,pts[i].c+'55');g.addColorStop(1,pts[j].c+'55');hx.beginPath();hx.moveTo(pts[i].x,pts[i].y);hx.lineTo(pts[j].x,pts[j].y);hx.strokeStyle=g;hx.lineWidth=1;hx.stroke()}
+  const pulse=Math.sin(Date.now()*.003)*3;
+  hx.beginPath();hx.arc(cx,cy,16+pulse,0,Math.PI*2);hx.fillStyle='rgba(0,201,177,0.12)';hx.fill();
+  hx.beginPath();hx.arc(cx,cy,11,0,Math.PI*2);hx.fillStyle='#00c9b1';hx.fill();
+  hx.fillStyle='#04090f';hx.font='bold 8px Space Mono,monospace';hx.textAlign='center';hx.textBaseline='middle';hx.fillText('AR',cx,cy);
+  actors.forEach((a,i)=>{const p=pts[i];const g=hx.createRadialGradient(p.x,p.y,0,p.x,p.y,26);g.addColorStop(0,a.c+'44');g.addColorStop(1,a.c+'00');hx.beginPath();hx.arc(p.x,p.y,26,0,Math.PI*2);hx.fillStyle=g;hx.fill();hx.beginPath();hx.arc(p.x,p.y,18,0,Math.PI*2);hx.fillStyle=a.c+'20';hx.strokeStyle=a.c;hx.lineWidth=1.5;hx.fill();hx.stroke();hx.fillStyle='#fff';hx.font='bold 10px Space Mono,monospace';hx.textAlign='center';hx.textBaseline='middle';hx.fillText(a.l,p.x,p.y);const lx=cx+(R+46)*Math.cos(a.a+hAng),ly=cy+(R+46)*Math.sin(a.a+hAng);hx.fillStyle=a.c+'bb';hx.font='8px Space Mono,monospace';hx.fillText(a.n,lx,ly)});
+  requestAnimationFrame(hAnimate)
+}
+hAnimate();
+
+// Reveal
+const obs=new IntersectionObserver(e=>e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('visible')}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Counter
+function animCount(el,target){let s=null;(function step(ts){if(!s)s=ts;const p=Math.min((ts-s)/1800,1),e=1-Math.pow(1-p,4);el.textContent=Math.floor(target*e).toLocaleString('id-ID');if(p<1)requestAnimationFrame(step)})(performance.now())}
+const cobs=new IntersectionObserver(e=>e.forEach(i=>{if(i.isIntersecting){animCount(i.target,+i.target.dataset.count);cobs.unobserve(i.target)}}),{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(el=>cobs.observe(el));
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'})}));
+</script>
+</body>
+</html>
